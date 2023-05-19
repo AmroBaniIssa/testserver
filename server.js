@@ -58,14 +58,23 @@ function getMovieOneHandel(req,res){
     res.status(200).json(data.rows);
   })
 }
+
 function updateMovieHandel(req,res){
   const movieid =req.params.id;
+  const movie=req.body;
   const sql=`update movies set title=$1,release_date=$2,image_path=$3,overview=$4 where id=${movieid} ; `
-  const values=[req.body.title,req.body.release_date,req.body.image_path,req.body.overview];
+  const values=[movie.title,movie.release_date,movie.image_path,movie.overview];
   client.query(sql,values).then((data)=>{
-    res.status(200).send(data.rows);
+    const newsql =`select * from movies;`
+    client.query(newsql).then((data)=>{
+      // console.log(data.rows)
+      res.status(200).send(data.rows);
+    })
   })
 }
+
+
+
 function addMovieHandel(req,res){
   const movie=req.body;
   console.log(movie)
@@ -81,6 +90,7 @@ function getMoviesHandel(req,res){
    const sql = 'select * from movies;';
    client.query(sql).then((data)=>{
     // res.send(data.rows);
+    // console.log(data.rows)
     let moviesFromDB = data.rows.map((item)=>{
       let oneMovie= new Movie(
         item.id,
