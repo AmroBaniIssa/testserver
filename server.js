@@ -68,7 +68,7 @@ function updateMovieHandel(req,res){
     const newsql =`select * from movies;`
     client.query(newsql).then((data)=>{
       // console.log(data.rows)
-      res.status(200).send(data.rows);
+      res.status(200).json(data.rows);
     })
   })
 }
