@@ -47,7 +47,12 @@ function deleteMovieHandel(req,res){
    const movieid =req.params.id;
    const sql=`delete from movies where id=${movieid} ; `
    client.query(sql).then((data)=>{
-      res.status(202).send('deleted')
+      // res.status(202).send('deleted')
+      const newsql =`select * from movies;`
+      client.query(newsql).then((data)=>{
+        // console.log(data.rows)
+        res.status(200).json(data.rows);
+      })
    })
 }
 function getMovieOneHandel(req,res){
